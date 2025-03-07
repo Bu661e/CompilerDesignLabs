@@ -1,0 +1,93 @@
+[33mwarning[0m: unused variable:'charSetTable'
+ [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/main.cj:5:5:
+  [36m| [0m
+[36m5[0m [36m| [0mvar charSetTable = CharSetTable()[0m
+  [36m| [0m    [33m^^^^^^^^^^^^ unused variable[0m
+  [36m| [0m
+  [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused variable:'aOldStart'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/nfa_generator.cj:26:13:
+   [36m| [0m
+[36m26[0m [36m| [0m        let aOldStart = pNFA1.pStartState[0m
+   [36m| [0m            [33m^^^^^^^^^ unused variable[0m
+   [36m| [0m
+   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused variable:'bOldEnd'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/nfa_generator.cj:30:13:
+   [36m| [0m
+[36m30[0m [36m| [0m        let bOldEnd = pNFA2.pEndState[0m
+   [36m| [0m            [33m^^^^^^^ unused variable[0m
+   [36m| [0m
+   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused function:'testResetAllStateId'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/main.cj:68:1:
+   [36m| [0m
+[36m68[0m [36m| [0m  func testResetAllStateId(): Unit{[0m
+   [36m| [0m [33m_[0m[33m^[0m
+[36m69[0m [36m| [0m[33m|[0m     testGraphInitAddStateEdge()[0m
+   [36m| [0m[33m|[0m ...[0m
+[36m74[0m [36m| [0m[33m|[0m }[0m
+   [36m| [0m[33m|[0m[33m_[0m[33m^ unused function[0m
+   [36m| [0m
+   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused function:'testSimplified'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/main.cj:76:1:
+   [36m| [0m
+[36m76[0m [36m| [0m  func testSimplified(): Unit{[0m
+   [36m| [0m [33m_[0m[33m^[0m
+[36m77[0m [36m| [0m[33m|[0m     testGraphInitAddStateEdge()[0m
+   [36m| [0m[33m|[0m ...[0m
+[36m79[0m [36m| [0m[33m|[0m }[0m
+   [36m| [0m[33m|[0m[33m_[0m[33m^ unused function[0m
+   [36m| [0m
+   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused function:'testUnion'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/main.cj:81:1:
+   [36m| [0m
+[36m81[0m [36m| [0m  func testUnion(): Unit{[0m
+   [36m| [0m [33m_[0m[33m^[0m
+[36m82[0m [36m| [0m[33m|[0m     // NFAGenerator.union(NFAGenerator.generateBasicNFA(DriverType.CharSet, 0, LexemeCategory.EMPTY), NFAGenerator.generateBasicNFA(DriverType.CharSet, 1, LexemeCategory.EMPTY))[0m
+   [36m| [0m[33m|[0m ...[0m
+[36m91[0m [36m| [0m[33m|[0m }[0m
+   [36m| [0m[33m|[0m[33m_[0m[33m^ unused function[0m
+   [36m| [0m
+   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused variable:'aOldStart'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/nfa_generator.cj:86:13:
+   [36m| [0m
+[36m86[0m [36m| [0m        let aOldStart = pNFA1.pStartState[0m
+   [36m| [0m            [33m^^^^^^^^^ unused variable[0m
+   [36m| [0m
+   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused variable:'bOldEnd'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/nfa_generator.cj:90:13:
+   [36m| [0m
+[36m90[0m [36m| [0m        let bOldEnd = pNFA2.pEndState[0m
+   [36m| [0m            [33m^^^^^^^ unused variable[0m
+   [36m| [0m
+   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused variable:'newEdge'
+   [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/graph.cj:118:17:
+    [36m| [0m
+[36m118[0m [36m| [0m            let newEdge = this.addEdge(newStartState.getStateId(), getStartState(), 0, DriverType.NULL)[0m
+    [36m| [0m                [33m^^^^^^^ unused variable[0m
+    [36m| [0m
+    [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused variable:'newEdge'
+   [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/graph.cj:124:17:
+    [36m| [0m
+[36m124[0m [36m| [0m            let newEdge = this.addEdge(getEndState(), newEndState.getStateId(), 0, DriverType.NULL)[0m
+    [36m| [0m                [33m^^^^^^^ unused variable[0m
+    [36m| [0m
+    [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+10 warnings generated, 10 warnings printed.

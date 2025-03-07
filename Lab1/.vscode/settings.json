@@ -1,0 +1,20 @@
+{
+    "editor.gotoLocation.alternativeDeclarationCommand": "editor.action.revealDefinition",
+    "editor.gotoLocation.alternativeDefinitionCommand": "editor.action.revealDefinition",
+    "editor.gotoLocation.alternativeTypeDefinitionCommand": "editor.action.revealDefinition",
+    "editor.selectionHighlight": false,
+    "files.autoSave": "onFocusChange",
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.quickSuggestions": {
+        "other": "on",
+        "comments": "off",
+        "strings": "on"
+    },
+    "terminal.integrated.env.linux": {
+        "CANGJIE_HOME": "/home/bubble/cangjie",
+        "CANGJIE_PATH": "/home/bubble/cangjie/bin:/home/bubble/cangjie/tools/bin:/home/bubble/cangjie/debugger/bin:",
+        "CANGJIE_LD_LIBRARY_PATH": "/home/bubble/cangjie/runtime/lib/linux_x86_64_llvm:/home/bubble/cangjie/tools/lib:",
+        "LD_LIBRARY_PATH": "${config:terminal.integrated.env.linux.CANGJIE_LD_LIBRARY_PATH}:${env:LD_LIBRARY_PATH}",
+        "PATH": "${config:terminal.integrated.env.linux.CANGJIE_PATH}:${env:PATH}"
+    }
+}
