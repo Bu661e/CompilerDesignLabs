@@ -9,6 +9,10 @@ public class CharSetTable {
     public func getNumOfCharSets(): Int64 {
         return indexId + 1
     }
+    public func clear() {
+        pCharSetTable.clear()
+        indexId = -1
+    }
 
     public func getCharsetType(indexId: Int64) {
         var t = ArrayList<CharSet>([])
