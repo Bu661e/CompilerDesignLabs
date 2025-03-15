@@ -6,58 +6,6 @@ public class CharSetTable {
     static var indexId = -1
     private var pCharSetTable: ArrayList<CharSet> = ArrayList<CharSet>([])
 
-    public func getNumOfCharSets(): Int64 {
-        return indexId + 1
-    }
-
-    public func getCharsetType(indexId: Int64) {
-        var t = ArrayList<CharSet>([])
-        for (cs in pCharSetTable) {
-            if (cs.indexId == indexId) {
-                t.append(cs)
-            }
-        }
-
-        if (t.size == 0) {
-            return DriverType.NULL
-        } else if (t.size == 1 && t[0].fromChar == t[0].toChar) {
-            return DriverType.CHAR
-        } else {
-            return DriverType.ChARSET
-        }
-    }
-
-    // public func getByIndex(indexId: Int64): ArrayList<(Rune,Int64)> {
-    //     var res = ArrayList<(Rune,Int64)>([])
-
-    //     for (cs in pCharSetTable) {
-    //         if (cs.indexId != indexId) {
-    //             continue
-    //         }
-
-    //         for (i in cs.fromChar..cs.toChar) {
-    //             res.append((i, cs.indexId))
-    //         }
-    //     }
-    //     return res
-    // }
-
-    // public func getByIndex(indexId: Int64): ArrayList<Rune> {
-    //     var res = ArrayList<Rune>([])
-
-    //     for (cs in pCharSetTable) {
-    //         if (cs.indexId != indexId) {
-    //             continue
-    //         }
-
-    //         for (i in cs.fromChar..cs.toChar) {
-    //             res.append(i)
-    //         }
-    //     }
-    //     return res
-    // }
-
-
     public func add(charSets: ArrayList<(Rune, Rune)>): Int64 {
         let indexId = getNewIndexId()
 
@@ -65,7 +13,7 @@ public class CharSetTable {
             let segmentId = i
             pCharSetTable.append(CharSet(indexId, segmentId, charSets[i][0], charSets[i][1]))
         }
-        // print()
+        print()
         return indexId
     }
 

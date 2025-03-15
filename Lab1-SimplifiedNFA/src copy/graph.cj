@@ -7,13 +7,15 @@ class Graph {
     static var numOfGraph = -1
 
     var graphId = 0
+    // var numOfStatus: Int64 = 0
+    // var numOfEdge: Int64 = 0
 
     var pStateTable: ArrayList<State> = ArrayList<State>()
     var pAdjacencyList: ArrayList<ArrayList<Edge>> = ArrayList<ArrayList<Edge>>()
+    var pReverseList: ArrayList<ArrayList<Edge>> = ArrayList<ArrayList<Edge>>()
 
-
-    var pStartState: State = State(-1, StateType.UNMATCH, LexemeCategory.EMPTY)
-    var pEndStateTable: ArrayList<State> = ArrayList<State>()
+    var pStartStateId: Int64 = -1
+    var pEndState: Int64 = -1
 
     public init() {
         numOfGraph += 1
@@ -21,21 +23,15 @@ class Graph {
     }
 
     public func printGraph() {
-        println("============ printGraph_begin========================")
+        println("==========================================")
         println("Graph Id: ${this.graphId}")
         println("Number of Status: ${getStateCnt()}")
         println("Number of Edge: ${getEdgeCnt()}\n")
-        println("Start State ID: ${getStartState().getStateId()}")
-        println("EndStateTable List:")
-        for (i in 0..this.pEndStateTable.size) {
-            println("[index ${i}] : [${pEndStateTable[i].getStateId()},  ${pEndStateTable[i].stateType.toString()}, ${pEndStateTable[i].category.toString()}]")
-        }
-
-        println("\nStateTable List:")
+        println("Start State: ${getStartState()}")
+        println("End   State: ${getEndState()}")
         for (i in 0..this.pStateTable.size) {
             println("[index ${i}] : [${pStateTable[i].getStateId()},  ${pStateTable[i].stateType.toString()}, ${pStateTable[i].category.toString()}]")
         }
-
         println("\nAdjacency List:")
         for (i in 0..this.pAdjacencyList.size) {
             println("State ${i}:")
@@ -43,37 +39,51 @@ class Graph {
                 println("  Edge: [${j.getFromStatus()} -> ${j.getNextStatus()}, DriverId: ${j.driverId}, EdgeType: ${j.edgeType.toString()}]")
             }
         }
-        println("============ printGraph_end  ========================")
 
-
-
+        println("\nReverse List:")
+        for (i in 0..this.pReverseList.size) {
+            println("index ${i}:")
+            for (j in this.pReverseList[i]) {
+                println("  Edge: [${j.getFromStatus()} -> ${j.getNextStatus()}, DriverId: ${j.driverId}, EdgeType: ${j.edgeType.toString()}]")
+            }
+        }
     }
 
+        // 添加状态节点
+    public func addState(stateType: StateType, category: LexemeCategory, index!: Int64): State {
+        let newState = State(getNextStateId(), stateType, category)
+        // println("addState: ${newState.stateId}stateType: ${stateType.toString()}, category: ${category.toString()}, index: ${index}")
 
-
-    public func addState(newState: State, index!: Int64): State {
-
+        // if (stateType.toString() == StateType.MATCH.toString() && getEndState() == -1) {
+        //     setEndState(newState.getStateId())
+        // }
         match (index) {
             case -1 =>  
                         this.pStateTable.append(newState)
                         this.pAdjacencyList.append(ArrayList<Edge>([]))
+                        this.pReverseList.append(ArrayList<Edge>([]))
             case 0 =>   
                         this.pStateTable.prepend(newState)
                         this.pAdjacencyList.prepend(ArrayList<Edge>([]))
+                        this.pReverseList.prepend(ArrayList<Edge>([]))
                         resetAllStateId(1, mode: "simplified")  
             case _ =>  throw Exception("addState: index error, it should to be -1 or 0")
         }
         return newState;
     }
 
-    public func addEdge(newEdge: Edge): Edge {
 
+    public func addEdge(fromState: Int64, nextState: Int64, driverId: Int64, edgeType: DriverType): Edge {
+
+        let newEdge = Edge(fromState, nextState, driverId, edgeType)
         
         // println("addEdge: fromState: ${fromState}, nextState: ${nextState}, driverId: ${driverId}, edgeType: ${edgeType.toString()}")
-        this.pAdjacencyList[newEdge.fromState].append(newEdge)
+        this.pAdjacencyList[fromState].append(newEdge)
+        this.pReverseList[nextState].append(newEdge)
 
         return newEdge
     }
+
 
 
     public func resetAllStateId(off: Int64, mode!: String): Unit{
@@ -84,8 +94,8 @@ class Graph {
             case _ => throw Exception("resetAllStateId: mode error, it should to be simplified or merge")
         }
 
-
-        for (st in this.pStateTable) {
+        for (index in 0..this.pStateTable.size) {
+            var st = this.pStateTable[index]
             st.setStateId((st.getStateId() + off) % MOD)
         }
 
@@ -95,12 +105,51 @@ class Graph {
                 j.setNextStatus((j.getNextStatus() + off) % MOD)
             }
         }
-
-
+        setStartState((getStartState() + off ) % MOD)
+        setEndState((getEndState() + off ) % MOD)
 
 
     }
 
+    public func simplified(): Unit{
+        // println("simplified: start ${this.pStartState}, end ${this.pEndState}")
+        if (haveInSide(this.pStartStateId)) {
+            let newStartState = this.addState(StateType.UNMATCH, LexemeCategory.EMPTY, index: 0)
+            let newEdge = this.addEdge(newStartState.getStateId(), getStartState(), 0, DriverType.NULL)
+            setStartState(newStartState.getStateId())
+        }
+
+        if (haveOutSide(this.pEndState)) {
+            let newEndState = this.addState(StateType.MATCH, LexemeCategory.EMPTY, index: -1)
+            let newEdge = this.addEdge(getEndState(), newEndState.getStateId(), 0, DriverType.NULL)
+            setEndState(newEndState.getStateId())
+
+        }
+    }
+
+
+
+    // public func union(other: Graph): Graph {
+    //     var newGraph = Graph()
+    //     newGraph.pStateTable = this.pStateTable.clone()
+    //     newGraph.pAdjacencyList = this.pAdjacencyList.clone()
+    //     newGraph.pReverseList = this.pReverseList.clone()
+    //     newGraph.pStartState = this.pStartState
+    //     newGraph.pEndState = this.pEndState
+
+    //     var off = this.getStateCnt() - 2
+    //     // other.printGraph()
+    //     other.resetAllStateId(off, mode: "merge")
+    //     other.printGraph()
+
+    //     newGraph.pStateTable.appendAll(other.pStateTable)
+
+
+    //     return newGraph
+
+
+
+    // }
 
     public func getStateCnt(): Int64 {
         return this.pStateTable.size
@@ -110,27 +159,30 @@ class Graph {
         return this.pAdjacencyList.size
     }
 
-    public func getNextStateId(): Int64 {
+    private func getNextStateId(): Int64 {
         return getStateCnt()
     }
 
 
-    public func getStartState(): State {
-        return this.pStartState
+    public func getStartState(): Int64 {
+        return this.pStartStateId
     }
 
-    public func getEndState(): ArrayList<State> {
-        return this.pEndStateTable
+    public func setEndState(endState: Int64) {
+        this.pEndState = endState
     }
 
-    public func setStartState(startState: State) {
-        this.pStartState = startState
-    }
-    public func addEndState(state: State) {
-        this.pEndStateTable.append(state)
+    public func getEndState(): Int64 {
+        return this.pEndState
     }
 
+    public func setStartState(startState: Int64) {
+        this.pStartStateId = startState
+    }
 
+    public func haveInSide(stateId: Int64): Bool{
+        return this.pReverseList[stateId].size > 0
+    }
 
     public func haveOutSide(stateId: Int64): Bool{
         return this.pAdjacencyList[stateId].size >  0
@@ -145,8 +197,8 @@ class Edge {
         var fromState: Int64,
         var nextState: Int64,
         // 输入符号
-        var driverId: Int64,
-        var edgeType: DriverType
+        let driverId: Int64,
+        let edgeType: DriverType
     ) {}
 
     public func getFromStatus(): Int64 {
@@ -162,18 +214,6 @@ class Edge {
     public func setNextStatus(nextState: Int64) {
         return this.nextState = nextState
     }
-    public func getDriverId(): Int64 {
-        return driverId
-    }
-    public func setDriverId(driverId: Int64) {
-        return this.driverId = driverId
-    }
-    public func getEdgeType(): DriverType {
-        return edgeType
-    }
-    public func setEdgeType(edgeType: DriverType) {
-        return this.edgeType = edgeType
-    }
 
 
 }
@@ -181,8 +221,8 @@ class Edge {
 class State {
     public State(
         var stateId: Int64,
-        var stateType: StateType,
-        var category: LexemeCategory
+        let stateType: StateType,
+        let category: LexemeCategory
     ) {}
 
     public func getStateId(): Int64 {
@@ -191,39 +231,22 @@ class State {
     public func setStateId(stateId: Int64) {
         return this.stateId = stateId
     }
-    public func getStateType(): StateType {
-        return stateType
-    }
-    public func getCategory(): LexemeCategory {
-        return category
-    }
-    public func setCategory(category: LexemeCategory) {
-        return this.category = category
-    }
-    public func setStateType(stateType: StateType) {
-        return this.stateType = stateType
-    }
-    public func toString(): String {
-        return "State(stateId: ${stateId}, stateType: ${stateType.toString()}, category: ${category.toString()})"
-    }
-
-
 
 }
 
-public enum DriverType <: ToString {
-    NULL | CHAR | ChARSET
+enum DriverType <: ToString {
+    NULL | CHAR | CharSet
     public func toString() {
         match (this) {
             case NULL => "NULL"
             case CHAR => "CHAR"
-            case ChARSET => "CHARSET"
+            case CharSet => "CharSet"
         }
     }
 
 }
 
-public enum StateType <: ToString{
+enum StateType <: ToString{
     MATCH | UNMATCH
     public func toString() {
         match (this) {
@@ -234,7 +257,7 @@ public enum StateType <: ToString{
     }
 }
 
-public enum LexemeCategory <: ToString{
+enum LexemeCategory <: ToString{
   // 空字符
   EMPTY |
   // 整数常量

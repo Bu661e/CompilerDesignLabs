@@ -1,93 +1,169 @@
-[33mwarning[0m: unused variable:'charSetTable'
- [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/main.cj:5:5:
+[33mwarning[0m: unused function:'testCharSetTable_append'
+ [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/test_char_set_table.cj:3:1:
   [36m| [0m
-[36m5[0m [36m| [0mvar charSetTable = CharSetTable()[0m
-  [36m| [0m    [33m^^^^^^^^^^^^ unused variable[0m
+[36m3[0m [36m| [0m  func testCharSetTable_append(): Unit {[0m
+  [36m| [0m [33m_[0m[33m^[0m
+[36m4[0m [36m| [0m[33m|[0m     println(charSetTable.add(ArrayList<(Rune, Rune)>([(r'a', r'z'), (r'A', r'Z')])))[0m
+  [36m| [0m[33m|[0m ...[0m
+[36m7[0m [36m| [0m[33m|[0m }[0m
+  [36m| [0m[33m|[0m[33m_[0m[33m^ unused function[0m
   [36m| [0m
   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
 
-[33mwarning[0m: unused variable:'aOldStart'
-  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/nfa_generator.cj:26:13:
-   [36m| [0m
-[36m26[0m [36m| [0m        let aOldStart = pNFA1.pStartState[0m
-   [36m| [0m            [33m^^^^^^^^^ unused variable[0m
-   [36m| [0m
-   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+[33mwarning[0m: unused variable:'g'
+ [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/main.cj:6:5:
+  [36m| [0m
+[36m6[0m [36m| [0mvar g = Graph()[0m
+  [36m| [0m    [33m^ unused variable[0m
+  [36m| [0m
+  [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
 
-[33mwarning[0m: unused variable:'bOldEnd'
-  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/nfa_generator.cj:30:13:
-   [36m| [0m
-[36m30[0m [36m| [0m        let bOldEnd = pNFA2.pEndState[0m
-   [36m| [0m            [33m^^^^^^^ unused variable[0m
-   [36m| [0m
-   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+[33mwarning[0m: unused variable:'category'
+ [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/nfa_generator.cj:7:85:
+  [36m| [0m
+[36m7[0m [36m| [0m    public static  func generateBasicNFA(driverType: DriverType , driverId: Int64,  category: LexemeCategory): Graph {[0m
+  [36m| [0m                                                                                    [33m^^^^^^^^ unused variable[0m
+  [36m| [0m
+  [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
 
-[33mwarning[0m: unused function:'testResetAllStateId'
-  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/main.cj:68:1:
+[33mwarning[0m: unused function:'testCharSetTable_range'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/test_char_set_table.cj:8:1:
    [36m| [0m
-[36m68[0m [36m| [0m  func testResetAllStateId(): Unit{[0m
+[36m8[0m  [36m| [0m  func testCharSetTable_range(): Unit {[0m
    [36m| [0m [33m_[0m[33m^[0m
-[36m69[0m [36m| [0m[33m|[0m     testGraphInitAddStateEdge()[0m
+[36m9[0m  [36m| [0m[33m|[0m     println(charSetTable.range(r'a', r'z'))[0m
    [36m| [0m[33m|[0m ...[0m
-[36m74[0m [36m| [0m[33m|[0m }[0m
+[36m12[0m [36m| [0m[33m|[0m }[0m
    [36m| [0m[33m|[0m[33m_[0m[33m^ unused function[0m
    [36m| [0m
    [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
 
-[33mwarning[0m: unused function:'testSimplified'
-  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/main.cj:76:1:
+[33mwarning[0m: unused function:'testCharSetTable_union_c'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/test_char_set_table.cj:14:1:
    [36m| [0m
-[36m76[0m [36m| [0m  func testSimplified(): Unit{[0m
+[36m14[0m [36m| [0m  func testCharSetTable_union_c(): Unit {[0m
    [36m| [0m [33m_[0m[33m^[0m
-[36m77[0m [36m| [0m[33m|[0m     testGraphInitAddStateEdge()[0m
+[36m15[0m [36m| [0m[33m|[0m [0m
    [36m| [0m[33m|[0m ...[0m
-[36m79[0m [36m| [0m[33m|[0m }[0m
+[36m19[0m [36m| [0m[33m|[0m }[0m
    [36m| [0m[33m|[0m[33m_[0m[33m^ unused function[0m
    [36m| [0m
    [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
 
 [33mwarning[0m: unused function:'testUnion'
-  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/main.cj:81:1:
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/test_nfa_generator.cj:19:1:
    [36m| [0m
-[36m81[0m [36m| [0m  func testUnion(): Unit{[0m
+[36m19[0m [36m| [0m  func testUnion(): Unit{[0m
    [36m| [0m [33m_[0m[33m^[0m
-[36m82[0m [36m| [0m[33m|[0m     // NFAGenerator.union(NFAGenerator.generateBasicNFA(DriverType.CharSet, 0, LexemeCategory.EMPTY), NFAGenerator.generateBasicNFA(DriverType.CharSet, 1, LexemeCategory.EMPTY))[0m
+[36m20[0m [36m| [0m[33m|[0m    [0m
    [36m| [0m[33m|[0m ...[0m
-[36m91[0m [36m| [0m[33m|[0m }[0m
+[36m29[0m [36m| [0m[33m|[0m }[0m
    [36m| [0m[33m|[0m[33m_[0m[33m^ unused function[0m
    [36m| [0m
    [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
 
-[33mwarning[0m: unused variable:'aOldStart'
-  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/nfa_generator.cj:86:13:
+[33mwarning[0m: unused function:'testCharSetTable_union_c_charSetId'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/test_char_set_table.cj:21:1:
    [36m| [0m
-[36m86[0m [36m| [0m        let aOldStart = pNFA1.pStartState[0m
-   [36m| [0m            [33m^^^^^^^^^ unused variable[0m
+[36m21[0m [36m| [0m  func testCharSetTable_union_c_charSetId(): Unit {[0m
+   [36m| [0m [33m_[0m[33m^[0m
+[36m22[0m [36m| [0m[33m|[0m     println(charSetTable.range(r'a', r'z'))[0m
+   [36m| [0m[33m|[0m ...[0m
+[36m27[0m [36m| [0m[33m|[0m }[0m
+   [36m| [0m[33m|[0m[33m_[0m[33m^ unused function[0m
+   [36m| [0m
+   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused function:'printInfo'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/nfa2dfa.cj:23:9:
+   [36m| [0m
+[36m23[0m [36m| [0m          func printInfo(info: String) {[0m
+   [36m| [0m [33m_[0m[33m________^[0m
+[36m24[0m [36m| [0m[33m|[0m             println("printInfo_begin=========================================================")[0m
+   [36m| [0m[33m|[0m ...[0m
+[36m43[0m [36m| [0m[33m|[0m         }[0m
+   [36m| [0m[33m|[0m[33m_[0m[33m________^ unused function[0m
+   [36m| [0m
+   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused function:'testCharSetTable_union_charSetId_charSetId'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/test_char_set_table.cj:29:1:
+   [36m| [0m
+[36m29[0m [36m| [0m  func testCharSetTable_union_charSetId_charSetId(): Unit {[0m
+   [36m| [0m [33m_[0m[33m^[0m
+[36m30[0m [36m| [0m[33m|[0m     println(charSetTable.range(r'a', r'z'))[0m
+   [36m| [0m[33m|[0m ...[0m
+[36m37[0m [36m| [0m[33m|[0m }[0m
+   [36m| [0m[33m|[0m[33m_[0m[33m^ unused function[0m
+   [36m| [0m
+   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused function:'testProduct'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/test_nfa_generator.cj:31:1:
+   [36m| [0m
+[36m31[0m [36m| [0m  func testProduct(): Unit{[0m
+   [36m| [0m [33m_[0m[33m^[0m
+[36m32[0m [36m| [0m[33m|[0m     let pNFA1 = testInitSimpleNFA()[0m
+   [36m| [0m[33m|[0m ...[0m
+[36m39[0m [36m| [0m[33m|[0m }[0m
+   [36m| [0m[33m|[0m[33m_[0m[33m^ unused function[0m
+   [36m| [0m
+   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused function:'testCharSetTable_difference'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/test_char_set_table.cj:39:1:
+   [36m| [0m
+[36m39[0m [36m| [0m  func testCharSetTable_difference(): Unit {[0m
+   [36m| [0m [33m_[0m[33m^[0m
+[36m40[0m [36m| [0m[33m|[0m     println(charSetTable.add(ArrayList<(Rune, Rune)>([(r'a', r'a')])))[0m
+   [36m| [0m[33m|[0m ...[0m
+[36m53[0m [36m| [0m[33m|[0m }[0m
+   [36m| [0m[33m|[0m[33m_[0m[33m^ unused function[0m
+   [36m| [0m
+   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused function:'testPlusClosure'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/test_nfa_generator.cj:41:1:
+   [36m| [0m
+[36m41[0m [36m| [0m  func testPlusClosure(): Unit{[0m
+   [36m| [0m [33m_[0m[33m^[0m
+[36m42[0m [36m| [0m[33m|[0m     let pNFA1 = testInitSimpleNFA()[0m
+   [36m| [0m[33m|[0m ...[0m
+[36m47[0m [36m| [0m[33m|[0m }[0m
+   [36m| [0m[33m|[0m[33m_[0m[33m^ unused function[0m
+   [36m| [0m
+   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused function:'testZeorOrOne'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/test_nfa_generator.cj:49:1:
+   [36m| [0m
+[36m49[0m [36m| [0m  func testZeorOrOne(): Unit {[0m
+   [36m| [0m [33m_[0m[33m^[0m
+[36m50[0m [36m| [0m[33m|[0m     let pNFA1 = testInitSimpleNFA()[0m
+   [36m| [0m[33m|[0m ...[0m
+[36m56[0m [36m| [0m[33m|[0m }[0m
+   [36m| [0m[33m|[0m[33m_[0m[33m^ unused function[0m
+   [36m| [0m
+   [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
+
+[33mwarning[0m: unused function:'testClosure'
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/test_nfa_generator.cj:58:1:
+   [36m| [0m
+[36m58[0m [36m| [0m  func testClosure(): Unit{[0m
+   [36m| [0m [33m_[0m[33m^[0m
+[36m59[0m [36m| [0m[33m|[0m     let pNFA1 = testInitSimpleNFA()[0m
+   [36m| [0m[33m|[0m ...[0m
+[36m64[0m [36m| [0m[33m|[0m }[0m
+   [36m| [0m[33m|[0m[33m_[0m[33m^ unused function[0m
    [36m| [0m
    [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
 
 [33mwarning[0m: unused variable:'bOldEnd'
-  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/nfa_generator.cj:90:13:
+  [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/nfa_generator.cj:73:13:
    [36m| [0m
-[36m90[0m [36m| [0m        let bOldEnd = pNFA2.pEndState[0m
+[36m73[0m [36m| [0m        let bOldEnd = pNFA2.getEndState()[0m
    [36m| [0m            [33m^^^^^^^ unused variable[0m
    [36m| [0m
    [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
 
-[33mwarning[0m: unused variable:'newEdge'
-   [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/graph.cj:118:17:
-    [36m| [0m
-[36m118[0m [36m| [0m            let newEdge = this.addEdge(newStartState.getStateId(), getStartState(), 0, DriverType.NULL)[0m
-    [36m| [0m                [33m^^^^^^^ unused variable[0m
-    [36m| [0m
-    [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
-
-[33mwarning[0m: unused variable:'newEdge'
-   [36m==>[0m /home/bubble/CompilerDesignLabs/Lab1/src/graph.cj:124:17:
-    [36m| [0m
-[36m124[0m [36m| [0m            let newEdge = this.addEdge(getEndState(), newEndState.getStateId(), 0, DriverType.NULL)[0m
-    [36m| [0m                [33m^^^^^^^ unused variable[0m
-    [36m| [0m
-    [36m#[0m [0mnote[0m: this warning can be suppressed by setting the compiler option `-Woff unused`
-
-10 warnings generated, 10 warnings printed.
+15 warnings generated, 15 warnings printed.

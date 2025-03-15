@@ -7,161 +7,163 @@ class NFAGenerator {
     public static  func generateBasicNFA(driverType: DriverType , driverId: Int64,  category: LexemeCategory): Graph {
         let pNFA = Graph()
 
-        let pState0 = pNFA.addState(StateType.UNMATCH, LexemeCategory.EMPTY, index: 0)
-        let pState1 = pNFA.addState(StateType.MATCH, category, index: 0)
-        pNFA.addEdge(pState0.getStateId(), pState1.getStateId(), driverId, driverType)
-        pNFA.setStartState(pState0.getStateId())
-        pNFA.setEndState(pState1.getStateId())
+        let pState0 = pNFA.addState(State(pNFA.getNextStateId(),StateType.UNMATCH, LexemeCategory.EMPTY), index: 0)
+        let pState1 = pNFA.addState(State(pNFA.getNextStateId(),StateType.MATCH, LexemeCategory.EMPTY), index: -1)
+
+        pNFA.addEdge(Edge(pState0.getStateId(), pState1.getStateId(), driverId, driverType))
+
+        pNFA.setStartState(pState0)
+        pNFA.addEndState(pState1)
+
         return pNFA
     }
 
-// TODO 并运算要考虑category的情况
+    // TODO 要考虑category的情况
+    // TODO 要考虑NFA的终结状态有几个 ，在连接的时候，是哪个终结状态和另一个图的起始连接？
     public static func union(pNFA1: Graph, pNFA2: Graph): Graph {
     
+        let aOldStart = pNFA1.getStartState()
+        let aOldEnd = pNFA1.getEndState()
 
-        pNFA1.simplified()
-        pNFA2.simplified()
+        let bOldStart = pNFA2.getStartState()
+        let bOldEnd = pNFA2.getEndState()
+
+        let newStart = pNFA1.addState(State(pNFA1.getNextStateId(),StateType.UNMATCH, LexemeCategory.EMPTY), index: 0)
+        let newEnd = pNFA2.addState(State(pNFA2.getNextStateId(),StateType.MATCH, LexemeCategory.EMPTY), index: -1)
+
+        pNFA2.resetAllStateId(pNFA1.getStateCnt(), mode: "merge")
+
         // pNFA1.printGraph()
-
-        let aOldStart = pNFA1.pStartState
-        let aOldEnd = pNFA1.pEndState
-
-        let bOldStart = pNFA2.pStartState
-        let bOldEnd = pNFA2.pEndState
-
-        pNFA2.resetAllStateId(pNFA1.pStateTable.size - 2, mode: "merge")
         // pNFA2.printGraph()
 
-        let newStart = pNFA1.pStartState
-        let newEnd = pNFA2.pEndState
-
-        // b的start -> st 解决
-        for (i in pNFA2.pAdjacencyList[bOldStart] ) {
-            i.fromState = newStart
-        }
-
-        // a的 st -> end 解决
-        for (i in pNFA1.pAdjacencyList ) {
-            for (j in i) {
-                if (j.nextState == pNFA1.pEndState) {
-                    j.nextState = newEnd
-                }
-            }
-        }
-        pNFA1.pAdjacencyList[newStart].appendAll(pNFA2.pAdjacencyList[bOldStart])
-        pNFA2.pAdjacencyList.remove(bOldStart)
-        pNFA1.pAdjacencyList.remove(aOldEnd)
-        
+        pNFA1.pStateTable.appendAll(pNFA2.pStateTable)
         pNFA1.pAdjacencyList.appendAll(pNFA2.pAdjacencyList)
 
-        pNFA1.pStateTable.remove(aOldEnd)
-        pNFA2.pStateTable.remove(bOldStart)
-        pNFA1.pStateTable.appendAll(pNFA2.pStateTable)
+        pNFA1.addEdge(Edge(newStart.getStateId(), aOldStart.getStateId(), -1, DriverType.NULL))
+        pNFA1.addEdge(Edge(newStart.getStateId(), bOldStart.getStateId(), -1, DriverType.NULL))
+        pNFA1.addEdge(Edge(aOldEnd[0].getStateId(), newEnd.getStateId(), -1, DriverType.NULL))
+        pNFA1.addEdge(Edge(bOldEnd[0].getStateId(), newEnd.getStateId(), -1, DriverType.NULL))
 
-        pNFA1.setEndState(newEnd)
+
         pNFA1.setStartState(newStart)
-
-        pNFA1.pReverseList.clear()
-        for (i in pNFA1.pAdjacencyList) {
-            pNFA1.pReverseList.append(ArrayList<Edge>())
+        for (st in pNFA1.pEndStateTable) {
+            st.setStateType(StateType.UNMATCH)
         }
-
-        // println(pNFA1.)
-        for (i in pNFA1.pAdjacencyList) {
-            for (j in i) {
-                pNFA1.pReverseList[j.nextState].append(j)
-            }
+        pNFA1.pEndStateTable.clear()
+        for (st in pNFA2.pEndStateTable) {
+            st.setStateType(StateType.UNMATCH)
         }
+        pNFA2.pEndStateTable.clear()
 
-        // pNFA1.printGraph()
+        pNFA1.pEndStateTable.append(newEnd)
 
         return pNFA1
 
     }
 
+    // TODO 要考虑category的情况
+    // TODO 要考虑NFA的终结状态有几个 ，在连接的时候，是哪个终结状态和另一个图的起始连接？
     public static func product(pNFA1: Graph, pNFA2: Graph): Graph{
-        // pNFA1.simplified()
-        // pNFA2.simplified()
-
-        let aOldStart = pNFA1.pStartState
-        let aOldEnd = pNFA1.pEndState
-
-        let bOldStart = pNFA2.pStartState
-        let bOldEnd = pNFA2.pEndState
-
-        let newStart: Int64
-        let newEnd: Int64
 
 
-        if (pNFA1.haveOutSide(aOldEnd) && pNFA2.haveInSide(bOldStart)) {
-            pNFA2.resetAllStateId(pNFA1.pStateTable.size, mode: "merge")
+        let aOldStart = pNFA1.getStartState()
+        let aOldEnd = pNFA1.getEndState()
 
-            newStart = pNFA1.pStartState
-            newEnd = pNFA2.pEndState
+        let bOldStart = pNFA2.getStartState()
+        let bOldEnd = pNFA2.getEndState()
 
-            pNFA1.pStateTable.appendAll(pNFA2.pStateTable)
-            pNFA1.pAdjacencyList.appendAll(pNFA2.pAdjacencyList)
-            pNFA1.pReverseList.appendAll(pNFA2.pReverseList)
-            pNFA1.pStartState = newStart
-            pNFA1.pEndState = newEnd
-        } else {
-            pNFA2.resetAllStateId(pNFA1.pStateTable.size - 1, mode: "merge")
 
-            newStart = pNFA1.pStartState
-            newEnd = pNFA2.pEndState
+        pNFA2.resetAllStateId(pNFA1.getStateCnt(), mode: "merge")
+        pNFA1.pStateTable.appendAll(pNFA2.pStateTable)
+        pNFA1.pAdjacencyList.appendAll(pNFA2.pAdjacencyList)
+        pNFA1.addEdge(Edge(aOldEnd[0].getStateId(), bOldStart.getStateId(), -1, DriverType.NULL))
 
-            pNFA1.pStateTable.remove(aOldEnd)
-            pNFA1.pStateTable.appendAll(pNFA2.pStateTable)
 
-            pNFA1.pAdjacencyList[aOldEnd].appendAll(pNFA2.pAdjacencyList[bOldStart])
-            pNFA2.pAdjacencyList.remove(bOldStart)
-            pNFA1.pAdjacencyList.appendAll(pNFA2.pAdjacencyList)
-
-            pNFA1.pReverseList.clear()
-            for (i in pNFA1.pAdjacencyList) {
-                pNFA1.pReverseList.append(ArrayList<Edge>())
-            }
-            for (i in pNFA1.pAdjacencyList) {
-                for (j in i) {
-                    pNFA1.pReverseList[j.nextState].append(j)
-                }
-            }
+        pNFA1.setStartState(aOldStart)
+        for (st in pNFA1.pEndStateTable) {
+            st.setStateType(StateType.UNMATCH)
         }
+        pNFA1.pEndStateTable.clear()
+        pNFA1.pEndStateTable.appendAll(pNFA2.pEndStateTable)
 
-        pNFA1.setEndState(newEnd)
+        return pNFA1
+
+    }
+
+    public static func plusClosure(pNFA1: Graph): Graph{
+
+
+        let aOldStart = pNFA1.getStartState()
+        let aOldEnd = pNFA1.getEndState()
+
+        let newStart = pNFA1.addState(State(pNFA1.getNextStateId(),StateType.UNMATCH, LexemeCategory.EMPTY), index: 0)
+        let newEnd = pNFA1.addState(State(pNFA1.getNextStateId(),StateType.MATCH, LexemeCategory.EMPTY), index: -1)
+
+        pNFA1.addEdge(Edge(newStart.getStateId(), aOldStart.getStateId(), -1, DriverType.NULL))
+        pNFA1.addEdge(Edge(aOldEnd[0].getStateId(), newEnd.getStateId(), -1, DriverType.NULL))
+        pNFA1.addEdge(Edge(aOldEnd[0].getStateId(), aOldStart.getStateId(), -1, DriverType.NULL))
+
         pNFA1.setStartState(newStart)
+        for (st in pNFA1.pEndStateTable) {
+            st.setStateType(StateType.UNMATCH)
+        }
+        pNFA1.pEndStateTable.clear()
+        pNFA1.pEndStateTable.append(newEnd)
+
+        return pNFA1
+    }
+
+    public static func zeroOrOne(pNFA1: Graph): Graph {
+        let aOldStart = pNFA1.getStartState()
+        let aOldEnd = pNFA1.getEndState()
+
+        let newStart = pNFA1.addState(State(pNFA1.getNextStateId(),StateType.UNMATCH, LexemeCategory.EMPTY), index: 0)
+        let newEnd = pNFA1.addState(State(pNFA1.getNextStateId(),StateType.MATCH, LexemeCategory.EMPTY), index: -1)
+
+        pNFA1.addEdge(Edge(newStart.getStateId(), aOldStart.getStateId(), -1, DriverType.NULL))
+        pNFA1.addEdge(Edge(aOldEnd[0].getStateId(), newEnd.getStateId(), -1, DriverType.NULL))
+        pNFA1.addEdge(Edge(newStart.getStateId(), newEnd.getStateId(), -1, DriverType.NULL))
+
+        pNFA1.setStartState(newStart)
+        for (st in pNFA1.pEndStateTable) {
+            st.setStateType(StateType.UNMATCH)
+        }
+        pNFA1.pEndStateTable.clear()
+        pNFA1.pEndStateTable.append(newEnd)
+
+        return pNFA1
+
+    }
+    public static func closure(pNFA1: Graph): Graph {
+        
+        let aOldStart = pNFA1.getStartState()
+        let aOldEnd = pNFA1.getEndState()
+
+        let newStart = pNFA1.addState(State(pNFA1.getNextStateId(),StateType.UNMATCH, LexemeCategory.EMPTY), index: 0)
+        let newEnd = pNFA1.addState(State(pNFA1.getNextStateId(),StateType.MATCH, LexemeCategory.EMPTY), index: -1)
+
+        pNFA1.addEdge(Edge(newStart.getStateId(), aOldStart.getStateId(), -1, DriverType.NULL))
+        pNFA1.addEdge(Edge(aOldEnd[0].getStateId(), newEnd.getStateId(), -1, DriverType.NULL))
+        pNFA1.addEdge(Edge(aOldEnd[0].getStateId(), aOldStart.getStateId(), -1, DriverType.NULL))
+        pNFA1.addEdge(Edge(newStart.getStateId(), newEnd.getStateId(), -1, DriverType.NULL))
+        
+
+
+        pNFA1.setStartState(newStart)
+        for (st in pNFA1.pEndStateTable) {
+            st.setStateType(StateType.UNMATCH)
+        }
+        pNFA1.pEndStateTable.clear()
+        pNFA1.pEndStateTable.append(newEnd)
 
         return pNFA1
 
 
 
-
     }
-
-    public static func plusClosure(pNFA1: Graph, pNFA2: Graph): Graph{
-        // pNFA1.simplified()
-        // pNFA2.simplified()
-
-        let aOldStart = pNFA1.pStartState
-        let aOldEnd = pNFA1.pEndState
-
-        let bOldStart = pNFA2.pStartState
-        let bOldEnd = pNFA2.pEndState
-
-        let newStart: Int64
-        let newEnd: Int64
-
-
-
-
-        return pNFA1
-
-
-
-
-    }
-
 
 }
+
+
 
 
