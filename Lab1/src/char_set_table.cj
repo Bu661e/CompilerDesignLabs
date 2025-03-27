@@ -31,37 +31,6 @@ public class CharSetTable {
         }
     }
 
-    // public func getByIndex(indexId: Int64): ArrayList<(Rune,Int64)> {
-    //     var res = ArrayList<(Rune,Int64)>([])
-
-    //     for (cs in pCharSetTable) {
-    //         if (cs.indexId != indexId) {
-    //             continue
-    //         }
-
-    //         for (i in cs.fromChar..cs.toChar) {
-    //             res.append((i, cs.indexId))
-    //         }
-    //     }
-    //     return res
-    // }
-
-    // public func getByIndex(indexId: Int64): ArrayList<Rune> {
-    //     var res = ArrayList<Rune>([])
-
-    //     for (cs in pCharSetTable) {
-    //         if (cs.indexId != indexId) {
-    //             continue
-    //         }
-
-    //         for (i in cs.fromChar..cs.toChar) {
-    //             res.append(i)
-    //         }
-    //     }
-    //     return res
-    // }
-
-
     public func add(charSets: ArrayList<(Rune, Rune)>): Int64 {
         let indexId = getNewIndexId()
 

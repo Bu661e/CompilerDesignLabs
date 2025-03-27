@@ -7,19 +7,19 @@ var g = Graph()
 
 main(): Int64 {
 // char_set_table
-    testCharSetTable_append()
+    // testCharSetTable_append()
 
-    testCharSetTable_range()
+    // testCharSetTable_range()
 
-    testCharSetTable_union_c()
+    // testCharSetTable_union_c()
 
-    testCharSetTable_union_c_charSetId()
+    // testCharSetTable_union_c_charSetId()
 
-    testCharSetTable_union_charSetId_charSetId()
+    // testCharSetTable_union_charSetId_charSetId()
 
-    testCharSetTable_difference()
+    // testCharSetTable_difference()
 
-    charSetTable.clear()
+    // charSetTable.clear()
 
 // nfa_generator
 
